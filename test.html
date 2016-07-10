@@ -1,0 +1,82 @@
+<!DOCTYPE html><html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Tutorial</title>
+	
+	<script src="//cdn.bootcss.com/jquery/1.12.3/jquery.js"></script>
+	<script src="//cdn.bootcss.com/es5-shim/4.5.8/es5-shim.js"></script>
+	<script src="//cdn.bootcss.com/es5-shim/4.5.8/es5-sham.js"></script>
+    <script src="src/react/react.js"></script>
+    <script src="src/react/react-dom.js"></script>
+    <script src="src/react/browser.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    
+  	<script type="text/babel">
+  		
+  		var User = {
+  			renderTo: 'content',
+  			template: function() {
+	  			return (
+					<div>
+						<div>标题</div>
+						<button id="add">增加</button>
+						<button id="del">删除</button>
+						<button onClick={this.test}>test</button>
+						{
+							this.state.list.map(function(u, i) {
+								return <div>{u.name}</div>
+							})
+						}
+					</div>
+	  			)
+  			},
+  			data: {
+  				list: [
+  					{name: 'sun'},
+  					{name: 'tom'},
+  					{name: 'test'}
+  				]
+  			},
+  			init: function() {
+  				var me = this;
+  				var F = React.createClass({
+  					test: function() {
+  						alert('click');
+  					},
+  					render: function() {
+  						return me.template.call(this);
+  					},
+  					getInitialState: function() {
+  						return me.data;
+  					},
+  					componentDidMount: function() {
+  						$('#add', document.getElementById(me.renderTo)).on('click', function( ) {
+  							var list = this.state.list;
+  							list.push({
+  								name: 'aaa'
+  							})
+  							this.setState({
+  								list: list
+  							});
+  						}.bind(this))
+  						$('#del', document.getElementById(me.renderTo)).on('click', function( ) {
+  							var list = this.state.list;
+  							list.splice(list.length - 1, 1)
+  							this.setState({
+  								list: list
+  							});
+  						}.bind(this))
+  					}
+  				});
+  				ReactDOM.render(<F />, document.getElementById(this.renderTo))
+  			}
+  		}
+  		User.init();
+  		
+    	
+    </script>
+    
+  </body>
+</html>
